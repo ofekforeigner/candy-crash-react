@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 
-import ScoreBoard from "./components/ScoreBoard";
+import ScoreBoard from "./components/scoreboard/ScoreBoard";
+
+import { BACKGROUND_COLORS } from "./constants";
 
 import blueCandy from "./images/blue-candy.png";
 import greenCandy from "./images/green-candy.png";
@@ -25,6 +27,7 @@ const App = () => {
   const [squareBeingDragged, setSquateBeingDragged] = useState(null);
   const [squareBeingReplaced, setSquateBeingReplaces] = useState(null);
   const [scoreDisplay, setScoreDisplay] = useState(0);
+  const [currentBackgroundColor, setCurrentBackgroundColor] = useState(null);
 
   const checkForColumnOfFour = () => {
     for (let i = 0; i <= 39; i++) {
@@ -136,8 +139,6 @@ const App = () => {
     }
   };
 
-  console.log(scoreDisplay);
-
   const dragStart = (e) => {
     console.log("drag start");
     setSquateBeingDragged(e.target);
@@ -185,6 +186,7 @@ const App = () => {
     ) {
       setSquateBeingDragged(null);
       setSquateBeingReplaces(null);
+      changeBackgroundColor();
     } else {
       currentColorArrangment[squareBeingReplacedId] =
         squareBeingReplaced.getAttribute("src");
@@ -202,6 +204,12 @@ const App = () => {
       randomColorArrangment.push(randomColor);
     }
     setCurrentColorArrangment(randomColorArrangment);
+  };
+
+  const changeBackgroundColor = () => {
+    const randomBackgroundColor =
+      BACKGROUND_COLORS[Math.floor(Math.random() * BACKGROUND_COLORS.length)];
+    setCurrentBackgroundColor(randomBackgroundColor);
   };
 
   useEffect(() => {
@@ -229,7 +237,10 @@ const App = () => {
 
   return (
     <div className="app">
-      <div className="game">
+      <div>
+        <ScoreBoard score={scoreDisplay} />
+      </div>
+      <div className="game" style={{ background: currentBackgroundColor }}>
         {currentColorArrangment.map((candyColor, index) => (
           <img
             key={index}
@@ -246,7 +257,6 @@ const App = () => {
           />
         ))}
       </div>
-      <ScoreBoard score={scoreDisplay} />
     </div>
   );
 };

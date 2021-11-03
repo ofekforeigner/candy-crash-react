@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import ScoreBoard from "./components/scoreboard/ScoreBoard";
+import Footer from "./components/Footer";
 
 import { BACKGROUND_COLORS } from "./constants";
 
@@ -237,9 +238,8 @@ const App = () => {
 
   return (
     <div className="app">
-      <div>
-        <ScoreBoard score={scoreDisplay} />
-      </div>
+      <h1 className="title">React Candy Crush</h1>
+      <ScoreBoard score={scoreDisplay} />
       <div className="game" style={{ background: currentBackgroundColor }}>
         {currentColorArrangment.map((candyColor, index) => (
           <img
@@ -257,6 +257,7 @@ const App = () => {
           />
         ))}
       </div>
+      <Footer />
     </div>
   );
 };
